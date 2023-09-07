@@ -82,6 +82,8 @@ public class KafkaTableForBridge implements Table {
     this.routingRules = routingRules;
     this.producer = producer;
     this.avroWriter = avroWriter;
+    LOG.info("table name: " + tableName);
+    LOG.info("routing rules: " + routingRules);
   }
 
   private List<Pair<String, HBaseKafkaEvent>> processMutation(CheckMutation check,
@@ -127,6 +129,9 @@ public class KafkaTableForBridge implements Table {
     }
   }
 
+  /*
+   * Replication中最主要的操作
+   */
   @Override
   public void batch(final List<? extends Row> actions, Object[] results)
     throws IOException, InterruptedException {
@@ -135,11 +140,13 @@ public class KafkaTableForBridge implements Table {
     BinaryEncoder encoderUse = EncoderFactory.get().binaryEncoder(bout, null);
 
     LOG.debug("got {} inputs ", actions.size());
+    LOG.info("got {} inputs ", actions.size());
 
     List<Future<RecordMetadata>> sends = new ArrayList<>();
 
     actions.stream().filter((row) -> row instanceof Mutation).map((row) -> (Mutation) row)
       .flatMap((row) -> {
+        LOG.info(row.toString());
         Mutation mut = (Mutation) row;
         boolean isDelete = mut instanceof Delete;
         return mut.getFamilyCellMap().keySet().stream()

@@ -214,6 +214,7 @@ public final class KafkaProxy {
     Class<? extends HRegionServer> regionServerClass = (Class<? extends HRegionServer>) conf
       .getClass(HConstants.REGION_SERVER_IMPL, HRegionServer.class);
 
+    LOG.info("region server class = " + regionServerClass.toString());
     List<String> allArgs = DEFAULT_PROPERTIES.keySet().stream()
       .map((argKey) -> ("-D" + argKey + "=" + DEFAULT_PROPERTIES.get(argKey)))
       .collect(Collectors.toList());

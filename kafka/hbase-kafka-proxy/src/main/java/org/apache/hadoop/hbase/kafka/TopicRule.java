@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.yetus.audience.InterfaceAudience;
 
 /**
@@ -36,5 +37,14 @@ public class TopicRule extends Rule {
 
   public Set<String> getTopics() {
     return topics;
+  }
+
+  @Override
+  public String toString() {
+    return "RouteRule(" +
+            "tableName=" + tableName +
+            " ,columnFamily=" + Bytes.toString(getColumnFamily()) +
+            " ,columnQualifier=" + Bytes.toString(getQualifier()) +
+            " ,topics=" + topics;
   }
 }

@@ -17,6 +17,7 @@
  */
 package org.apache.hadoop.hbase.kafka;
 
+import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.yetus.audience.InterfaceAudience;
 
 /**
@@ -25,5 +26,13 @@ import org.apache.yetus.audience.InterfaceAudience;
 @InterfaceAudience.Private
 public class DropRule extends Rule {
   public DropRule() {
+  }
+
+  @Override
+  public String toString() {
+    return "DropRule(" +
+            "tableName=" + tableName +
+            " ,columnFamily=" + Bytes.toString(getColumnFamily()) +
+            " ,columnQualifier=" + Bytes.toString(getQualifier());
   }
 }

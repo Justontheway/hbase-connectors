@@ -185,6 +185,7 @@ public class TopicRoutingRules {
    * @param qualifer     qualifier name to check
    * @return list of topics that match the passed in values (or empty for none).
    */
+  // @TODO: 如果策略多的话，这里影响性能，需要优化
   public List<String> getTopics(TableName table, byte[] columnFamily, byte[] qualifer) {
     List<String> ret = new ArrayList<>();
     for (TopicRule r : getRouteRules()) {
@@ -210,5 +211,10 @@ public class TopicRoutingRules {
    */
   public List<TopicRule> getRouteRules() {
     return routeRules;
+  }
+
+  @Override
+  public String toString() {
+    return "Rules: " + this.routeRules + "," + this.dropRules;
   }
 }
